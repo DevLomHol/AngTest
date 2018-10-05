@@ -1,0 +1,60 @@
+<!--The whole content below can be removed with the new code.-->
+<div class="card">
+ <div class="card-header">
+   {{prodCompTitle}}
+ </div>
+
+ <div class="card-body">
+    <div class="row">
+        <label class="col-md2">Filter by: </label>
+        
+        <div class="col-md4">
+          <input [(ngModel)]= 'listFilterProp' type="text">
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md6"> 
+        <h4>
+          Filtered by {{listFilter}}
+        </h4>
+      </div>
+      
+    </div>
+    <div class="table-responsive" >
+      <table class="table" *ngIf='products && filteredProducts.length > 0'>
+        <thead>
+          <tr>
+              <th>
+                <button class="btn btn-primary" (click)='toggleImage()'>
+                  {{showImage ? 'Hide': 'Show'}} Image
+                </button>
+              </th>
+              <th>Product</th>
+              <th>Code</th>
+              <th>Available</th>
+              <th>Price</th>
+              <th>5 Star Rating</th>
+          </tr>
+            
+        </thead>
+        <tbody>
+          <tr *ngFor='let product of filteredProducts'>
+            <td>
+              <img *ngIf='showImage' 
+              [src]='product.imageUrl' [title]='product.productName' [style.width.px]='imageWidth' [style.margin.px]='imageMargin'>
+            </td>
+            <td>{{product.productName}}</td>
+            <td>{{product.productCode| convertToSpace : "-"}}</td>
+            <td>{{product.releaseDate}}</td>
+            <td>{{product.price|currency: 'USD': 'symbol': '1.2-2'}}</td>
+            <td><pm-star 
+                [rating] = 'product.starRating' 
+                (notification) = 'onNestedControlNotify($event)'
+              ></pm-star></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+ </div>
+</div>
