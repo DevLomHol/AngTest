@@ -3,7 +3,6 @@ import { IProduct } from './product';
 import { ProductService } from './product.service';
 
 @Component({
-  selector: 'pm-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
@@ -14,6 +13,8 @@ export class ProductComponent implements OnInit {
   imageMargin: number = 2;
   showImage: boolean = false;
   listFilter: string = 'cart';
+  errorData : any;
+  dataComplete: any;
 
   filteredProducts: IProduct[];
 
@@ -33,7 +34,15 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() : void {
-    this.products = this.productService.getProducts();
+      this.productService.getProducts().subscribe(
+        
+      products => {
+        this.products = products;
+        this.filteredProducts = this.listFilter ? this.filterProducts(this.listFilter) : this.products;
+      }
+      ,
+      error => this.errorData = <any>error);
+
     this.filteredProducts = this.products;
   }
 
